@@ -15,10 +15,10 @@ double pAngle = 0;
 int mapWidth = 8, mapHeight = 8, mapSize = 64;
 int map[] = {
 	1, 1, 1, 1, 1, 1, 1, 1,
-	1, 0, 1, 0, 0, 0, 0, 1,
-	1, 0, 1, 1, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
-	1, 0, 0, 0, 0, 1, 0, 1,
+	1, 0, 0, 0, 0, 0, 0, 1,
+	1, 0, 1, 0, 1, 0, 1, 1,
+	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 1, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 1, 1, 1, 1, 1, 1
@@ -161,12 +161,12 @@ void drawRays() {
 				rayX = rayHX;
 				rayY = rayHY;
 				dist = horizontalDistance;
-				glColor3f(0.7, 0, 0);
+				glColor3f(0.7, 0.7, 0.7);
 			} else if (verticalDistance < horizontalDistance) {
 				rayX = rayVX;
 				rayY = rayVY;
 				dist = verticalDistance;
-				glColor3f(0.9, 0, 0);
+				glColor3f(0.9, 0.9, 0.9);
 			}
 			
 			glLineWidth(1);
@@ -176,17 +176,33 @@ void drawRays() {
 			glEnd();	
 		}
 		
-		// Draw 3D scene
+		// Draw 3D scene, begin with walls. Draw sky and floor at the same time.
 		double angleDiff = pAngle - rAngle;
 		if (angleDiff < 0) angleDiff += 2 * PI;
 		else if (angleDiff > 2 * PI) angleDiff -= 2 * PI;
 		dist *= cos(angleDiff);
 		double lineHeight = (mapSize * 320) / dist;
 		double lineOffset = 160 - lineHeight / 2;
+		
 		glLineWidth(8);
 		glBegin(GL_LINES);
 		glVertex2i(r * 8 + 530, lineOffset);
 		glVertex2i(r * 8 + 530, lineHeight + lineOffset);
+		glEnd();
+		
+		// Draw sky
+		glColor3f(0, 0, 1);
+		glBegin(GL_LINES);
+		glVertex2i(r * 8 + 530, 0);
+		glVertex2i(r * 8 + 530, lineOffset);
+		glEnd();
+		
+		// Draw floor
+		glColor3f(0, 1, 0);
+		glBegin(GL_LINES);
+		glVertex2i(r * 8 + 530, lineHeight + lineOffset);
+		glVertex2i(r * 8 + 530, 512);
+		glEnd();
 	}
 }
 
