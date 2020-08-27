@@ -183,7 +183,6 @@ void drawRays() {
 		dist *= cos(angleDiff);
 		double lineHeight = (mapSize * 320) / dist;
 		double lineOffset = 160 - lineHeight / 2;
-		if (lineHeight > 320) lineHeight = 320;
 		glLineWidth(8);
 		glBegin(GL_LINES);
 		glVertex2i(r * 8 + 530, lineOffset);
